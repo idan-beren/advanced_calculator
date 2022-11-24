@@ -1,6 +1,6 @@
 class Handler(object):
     """class to check if the exercise is valid and to handle the exercise"""
-    def __init__(self, exercise):
+    def __init__(self, exercise: str):
         # list of the operators
         self.operators = ['+', '-', '*', '/', '^', '%', '$', '&', '@', '~', '!']
         # the exercise to handle plus the end of string character
@@ -12,7 +12,7 @@ class Handler(object):
         # print the exercise
         print(self.exercise[:-1])
 
-    def is_operator(self, char):
+    def is_operator(self, char: str) -> bool:
         """
         check if the char is an operator
         :param char: the char to check
@@ -20,7 +20,7 @@ class Handler(object):
         """
         return char in self.operators
 
-    def is_operand(self, string):
+    def is_operand(self, string: str) -> bool:
         """
         check if the string is an operand
         :param string: the string to check
@@ -51,7 +51,7 @@ class Handler(object):
             else:
                 index += 1
 
-    def erase_spaces(self, index):
+    def erase_spaces(self, index: int):
         """erase the spaces from the exercise"""
         self.exercise = self.exercise[:index] + self.exercise[index + 1:]
 
@@ -78,8 +78,23 @@ class Handler(object):
         # check if the exercise contains an operand
         if self.contains(self.is_operand) is False:
             raise ValueError("The exercise contains no operand!")
+        # check if the brackets are correct
+        if self.correct_brackets() is False:
+            raise ValueError("The brackets are incorrect!")
+        # check if the exercise ends with an operator except the factorial operator
+        if self.is_operator(self.exercise[-2]) and self.exercise[-2] != '!':
+            raise ValueError("The exercise ends with an operator!")
+        # check if the exercise starts with an operator except the minus and tilda operators
+        if self.is_operator(self.exercise[0]) and self.exercise[0] != '-' and self.exercise[0] != '~':
+            raise ValueError("The exercise starts with an operator!")
+        # check if the exercise contains operators in a row except the minus operator
+        if self.operators_in_a_row() is True:
+            raise ValueError("The exercise contains operators in a row!")
+        # check if the exercise contains an empty brackets
+        if self.empty_brackets() is True:
+            raise ValueError("The exercise contains an empty brackets!")
 
-    def incorrect_char(self):
+    def incorrect_char(self) -> bool:
         """
         check if the exercise contains incorrect characters
         :return: True if the exercise contains incorrect characters, False otherwise
@@ -91,7 +106,7 @@ class Handler(object):
                 return False
         return True
 
-    def contains(self, function):
+    def contains(self, function: callable) -> bool:
         """
         check if the exercise contains something
         :param function: the function to check
@@ -102,7 +117,7 @@ class Handler(object):
                 return True
         return False
 
-    def only(self, function):
+    def only(self, function: callable) -> bool:
         """
         check if the exercise contains only something
         :param function: the function to check
@@ -112,3 +127,43 @@ class Handler(object):
             if not function(char):
                 return False
         return True
+
+    def correct_brackets(self) -> bool:
+        """
+        check if the brackets are correct
+        :return: True if the brackets are correct, False otherwise
+        """
+        brackets = []
+        for char in self.exercise[:-1]:
+            if char == '(':
+                brackets.append(char)
+            elif char == ')':
+                if len(brackets) == 0:
+                    return False
+                brackets.pop()
+        return len(brackets) == 0
+
+    def operators_in_a_row(self) -> bool:
+        """
+        check if the exercise contains operators in a row except the minus operator
+        :return: True if the exercise contains operators in a row except the minus operator, False otherwise
+        """
+        index = 0
+        while self.exercise[index] != "\0":
+            if self.is_operator(self.exercise[index]):
+                if self.is_operator(self.exercise[index + 1]) and self.exercise[index + 1] != '-':
+                    return True
+            index += 1
+        return False
+
+    def empty_brackets(self) -> bool:
+        """
+        check if the exercise contains empty brackets
+        :return: True if the exercise contains empty brackets, False otherwise
+        """
+        index = 0
+        while self.exercise[index] != "\0":
+            if self.exercise[index] == '(' and self.exercise[index + 1] == ')':
+                return True
+            index += 1
+        return False
