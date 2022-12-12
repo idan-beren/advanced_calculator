@@ -1,4 +1,4 @@
 class Scanner(object):
-    """class to scan the exercise"""
+    """class to scan the expression"""
     def __init__(self):
-        self.exercise = input("Enter the exercise: ")
+        self.expression = input("Enter the expression: ")

@@ -1,12 +1,10 @@
-from scanner import *
-from handler import *
+from calculator import *
 
 
 def main():
     while True:
         try:
-            s = Scanner()
-            Handler(s.exercise)
+            Calculator()
         except ValueError as e:
             print(e)
         except KeyboardInterrupt:
