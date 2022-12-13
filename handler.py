@@ -36,14 +36,20 @@ class Handler(object):
                     raise ValueError("Invalid expression")
             else:
                 index += 1
-        self.expression = [index for index in self.expression if index != SPACE]
+        self.expression = self.delete_spaces(self.expression)
 
     def merge_operands(self):
-        """merge the operands"""
+        new_expression = [""]
         index = 0
-        while index < len(self.expression) - 1:
-            if self.expression[index].isdigit() and self.expression[index + 1].isdigit():
-                self.expression[index] += self.expression[index + 1]
-                del self.expression[index + 1]
+        while index < len(self.expression):
+            if self.expression[index].isdigit() or self.expression[index] == DOT:
+                new_expression[-1] += self.expression[index]
             else:
-                index += 1
+                new_expression.append(self.expression[index])
+                new_expression.append("")
+            index += 1
+        new_expression = self.delete_spaces(new_expression)
+        self.expression = new_expression
+
+    def delete_spaces(self, lst: list) -> list:
+        return list(filter(lambda x: x != "", lst))
