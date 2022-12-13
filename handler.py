@@ -36,7 +36,7 @@ class Handler(object):
                     raise ValueError("Invalid expression")
             else:
                 index += 1
-        self.expression = self.delete_spaces(self.expression)
+        self.expression = [index for index in self.expression if index != SPACE]
 
     def merge_operands(self):
         new_expression = [""]
@@ -48,8 +48,5 @@ class Handler(object):
                 new_expression.append(self.expression[index])
                 new_expression.append("")
             index += 1
-        new_expression = self.delete_spaces(new_expression)
+        new_expression = list(filter(lambda x: x != "", new_expression))
         self.expression = new_expression
-
-    def delete_spaces(self, lst: list) -> list:
-        return list(filter(lambda x: x != "", lst))
