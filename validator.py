@@ -2,15 +2,18 @@ from configuration import *
 
 
 class Validator(object):
+    """class to validate the expression"""
     def __init__(self, expression: list):
         self.expression = expression
 
     def validate(self):
-        """check if the expression is valid"""
+        """validate the chars, the brackets order, and the beginning and ending of the expression."""
         self.vlidate_chars()
+        self.validate_brackets_order()
+        self.validate_start_end()
 
     def vlidate_chars(self):
-        """check if the chars are valid"""
+        """check if the chars in the expression are valid"""
         index = 0
         while index < len(self.expression):
             self.is_valid_char(index)
@@ -109,6 +112,41 @@ class Validator(object):
         if operator in OPERATORS:
             return OPERAND_SIDE[operator]
         return NONE
+
+    def validate_start_end(self):
+        """check if the expression contains at least one digit, start and end with valid chars, if not raise an error"""
+        if not self.contain_digit():
+            raise ValueError("The expression must contain at least one digit")
+        char = self.expression[0]
+        if char is MINUS or char is OPENING_BRACKET or char is DOT or char.isdigit() or self.check_operand_side(char) == RIGHT:
+            char = self.expression[-1]
+            if char is CLOSING_BRACKET or char.isdigit() or char is DOT or self.check_operand_side(char) == LEFT:
+                return
+        raise ValueError("the char at the start or end of the expression is invalid")
+
+    def contain_digit(self) -> bool:
+        """
+        check if the expression contain at least one digit
+        :return: True if the expression contain at least one digit, False otherwise
+        """
+        for char in self.expression:
+            if char.isdigit():
+                return True
+        return False
+
+    def validate_brackets_order(self):
+        """check if the brackets are in the right order, and if there are no extra brackets.
+        and raise an error if it needed"""
+        brackets = []
+        for char in self.expression:
+            if char == OPENING_BRACKET:
+                brackets.append(char)
+            elif char == CLOSING_BRACKET:
+                if len(brackets) == 0:
+                    raise ValueError("Invalid brackets order")
+                brackets.pop()
+        if len(brackets) != 0:
+            raise ValueError("Invalid brackets order")
 
     def raising_error(self, index: int):
         raise ValueError(f"Invalid char {self.expression[index]} at index {index}")

@@ -26,11 +26,13 @@ RIGHT = "right"
 LEFT = "left"
 BOTH = "both"
 SPACE = ' '
+TAB = '\t'
 DOT = '.'
 MINUS = '-'
 PLUS = '+'
 NONE = "none"
 
+# brackets
 OPENING_BRACKET = '('
 CLOSING_BRACKET = ')'
 BRACKETS = OPENING_BRACKET + CLOSING_BRACKET
