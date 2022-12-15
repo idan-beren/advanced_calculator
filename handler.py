@@ -10,10 +10,10 @@ class Handler(object):
         self.empty_expression()
         self.validate = Validator(self.expression)
         self.validate.validate()
-        # TODO: handle minuses
         self.validate.expression = self.expression
         self.validate.validate_expression()
         self.merge_operands()
+        self.handle_minuses()
         print(self.expression)
 
     def empty_expression(self):
@@ -38,3 +38,63 @@ class Handler(object):
             index += 1
         new_expression = list(filter(lambda x: x != "", new_expression))
         self.expression = new_expression
+
+    def count_minuses(self, index: int) -> int:
+        """count the minuses after the given index and return the count
+        :param index: index of the minus
+        :return: count of the minuses
+        """
+        count = 0
+        while index < len(self.expression) and self.expression[index] == MINUS:
+            count += 1
+            index += 1
+        return count
+
+    def delete_minuses(self, index1: int, index2: int):
+        """remove the minuses from the expression between the given indexes (not inclusive)"""
+        del self.expression[index1:index2]
+
+    def handle_minuses(self):
+        """handle the minuses, iterate through the expression, and call the appropriate function
+        to remove or replace the minuses"""
+        index = 0
+        while index < len(self.expression):
+            count = 0
+            if self.expression[index] == MINUS:
+                count = self.count_minuses(index)
+            if index != 0 and self.is_number(self.expression[index - 1]) or self.expression[index - 1] == DOT or \
+                    self.expression[index - 1] == CLOSING_BRACKET:
+                self.operand_before(index, count)
+            else:
+                self.operator_before(index, count)
+            index += 1
+
+    def operand_before(self, index: int, count: int):
+        """if before the minuses there is an operand, then replace the minuses. if the count is odd replace with minus,
+        if the count is even replace with plus"""
+        if count % 2 == 0 and count != 0:
+            self.expression[index] = PLUS
+            self.delete_minuses(index + 1, index + count)
+        elif count % 2 != 0:
+            self.expression[index] = MINUS
+            self.delete_minuses(index + 1, index + count)
+
+    def operator_before(self, index: int, count: int):
+        """if before the minuses there is an operator, then replace the minuses. if the count is odd
+        stick a minus to the next operand, if the count is even remove the minuses"""
+        if count % 2 == 0 and count != 0:
+            self.delete_minuses(index, index + count)
+        elif count % 2 != 0:
+            self.expression[index + count] = MINUS + self.expression[index + count]
+            self.delete_minuses(index, index + count)
+
+    def is_number(self, item: str) -> bool:
+        """check if the item is a number
+        :param item: item to check
+        :return: True if the item is a number, False otherwise
+        """
+        try:
+            float(item)
+            return True
+        except ValueError:
+            return False
