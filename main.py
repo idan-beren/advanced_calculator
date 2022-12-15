@@ -7,6 +7,10 @@ def main():
             Calculator()
         except ValueError as e:
             print(e)
+        except OverflowError as e:
+            print(e)
+        except ZeroDivisionError as e:
+            print(e)
         except KeyboardInterrupt:
             print("\nThe program has been stopped!")
             break

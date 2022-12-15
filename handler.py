@@ -14,7 +14,6 @@ class Handler(object):
         self.validate.validate_expression()
         self.merge_operands()
         self.handle_minuses()
-        print(self.expression)
 
     def empty_expression(self):
         """check if the expression is empty and raise an error if it is"""

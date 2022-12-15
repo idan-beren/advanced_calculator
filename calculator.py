@@ -1,6 +1,7 @@
 from scanner import *
 from handler import *
 from solver import *
+from printer import *
 
 
 class Calculator(object):
@@ -8,5 +9,6 @@ class Calculator(object):
         self.scanner = Scanner()
         self.handler = Handler(self.scanner.expression)
         self.solver = Solver(self.handler.expression)
-        self.answer = self.solver.solve()
-        print(self.answer)
+        self.result = self.solver.solve()
+        self.printer = Printer(self.result)
+        self.printer.print_expression()

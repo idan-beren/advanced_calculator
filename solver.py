@@ -7,7 +7,6 @@ class Solver(object):
         self.expression = expression
         self.postfix = Postfix(self.expression)
 
-    def solve(self):
+    def solve(self) -> float:
         self.postfix.convert_infix_to_postfix()
-        print(self.postfix.expression)
-        print(self.postfix.solve_postfix())
+        return self.postfix.solve_postfix()
