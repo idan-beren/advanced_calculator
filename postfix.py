@@ -1,8 +1,10 @@
 from stack import *
 from configuration import *
+from math_functions import *
 
 
 class Postfix(object):
+    """class to convert the expression to a postfix expression and then solve it"""
     def __init__(self, expression: list):
         self.expression = expression
 
@@ -28,7 +30,11 @@ class Postfix(object):
             result.append(stack.pop())
         self.expression = result
 
-    def solve_postfix(self):
+    def solve_postfix(self) -> float:
+        """
+        solve the postfix expression
+        :return: the result of the expression
+        """
         stack = Stack()
         for element in self.expression:
             if element not in OPERATORS:
@@ -36,12 +42,11 @@ class Postfix(object):
             else:
                 result = 0
                 if OPERAND_SIDE[element] == RIGHT or OPERAND_SIDE[element] == LEFT:
-                    operand1 = float(stack.pop())
+                    operand1 = convert_to_float(stack.pop())
                     result = OPERATOR_FUNCTION[element](operand1)
                 elif OPERAND_SIDE[element] == BOTH:
-                    operand1 = float(stack.pop())
-                    operand2 = float(stack.pop())
+                    operand1 = convert_to_float(stack.pop())
+                    operand2 = convert_to_float(stack.pop())
                     result = OPERATOR_FUNCTION[element](operand2, operand1)
                 stack.push(result)
-        return stack.pop()
-        # TODO: (-2)$4
+        return convert_to_float(stack.pop())
