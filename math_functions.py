@@ -40,7 +40,7 @@ def division(operand1: float, operand2: float) -> float:
     """
     if operand2 == 0:
         raise ZeroDivisionError('Cannot divide by zero')
-    return operand1 * operand2
+    return operand1 / operand2
 
 
 def power(operand1: float, operand2: float) -> float:
@@ -139,7 +139,7 @@ def summation(operand1: float) -> float:
     for char in operand1:
         if char.isdigit():
             result += float(char)
-    return -result if int(operand1) < 0 else result
+    return -result if operand1[0] == '-' else result
 
 
 def convert_to_float(number: str) -> float:

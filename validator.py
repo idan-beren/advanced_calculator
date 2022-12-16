@@ -57,13 +57,14 @@ class Validator(object):
     def validate_opening_bracket(self, before: str, after: str, index: int):
         """validate the opening brackets"""
         if (before in OPERATORS and self.operand_side(before) != LEFT) or before in OPENING_BRACKETS:
-            if after.isdigit() or after in OPENING_BRACKETS or self.operand_side(after) == RIGHT or after == MINUS:
+            if after.isdigit() or after in OPENING_BRACKETS or self.operand_side(after) == RIGHT or after == MINUS\
+                    or after == DOT:
                 return
         self.raising_error(index)
 
     def validate_closing_bracket(self, before: str, after: str, index: int):
         """validate the closing brackets"""
-        if before.isdigit() or before in CLOSING_BRACKETS or self.operand_side(before) == LEFT:
+        if before.isdigit() or before in CLOSING_BRACKETS or self.operand_side(before) == LEFT or before == DOT:
             if (after in OPERATORS and self.operand_side(after) != RIGHT) or after in CLOSING_BRACKETS:
                 return
         self.raising_error(index)
@@ -71,7 +72,8 @@ class Validator(object):
     def validate_minus(self, before: str, after: str, index: int):
         """validate the minus sign"""
         if before.isdigit() or before in CLOSING_BRACKETS + OPENING_BRACKETS or before in OPERATORS or before == DOT:
-            if after.isdigit() or after in OPENING_BRACKETS or after == MINUS or self.operand_side(after) == RIGHT or after == DOT:
+            if after.isdigit() or after in OPENING_BRACKETS or after == MINUS \
+                    or self.operand_side(after) == RIGHT or after == DOT:
                 return
         self.raising_error(index)
         # TODO: fixing the minuses validation.
@@ -103,7 +105,8 @@ class Validator(object):
     def validate_both_operator(self, before: str, after: str, index: int):
         """validate the both operators"""
         if before in CLOSING_BRACKETS or self.operand_side(before) == LEFT or before.isdigit() or before == DOT:
-            if after in OPENING_BRACKETS or after.isdigit() or after == MINUS or self.operand_side(after) == RIGHT or after == DOT:
+            if after in OPENING_BRACKETS or after.isdigit() or after == MINUS \
+                    or self.operand_side(after) == RIGHT or after == DOT:
                 return
         self.raising_error(index)
 
@@ -134,7 +137,8 @@ class Validator(object):
         if not self.contain_digit():
             raise ValueError("The expression must contain at least one digit")
         char = self.expression[0]
-        if char is MINUS or char is OPENING_BRACKET or char is DOT or char.isdigit() or self.operand_side(char) == RIGHT:
+        if char is MINUS or char is OPENING_BRACKET or char is DOT or char.isdigit() \
+                or self.operand_side(char) == RIGHT:
             char = self.expression[-1]
             if char is CLOSING_BRACKET or char.isdigit() or char is DOT or self.operand_side(char) == LEFT:
                 return

@@ -13,6 +13,7 @@ class Handler(object):
         self.validate.expression = self.expression
         self.validate.validate_expression()
         self.merge_operands()
+        print(self.expression)
         self.handle_minuses()
 
     def empty_expression(self):
@@ -61,8 +62,11 @@ class Handler(object):
             count = 0
             if self.expression[index] == MINUS:
                 count = self.count_minuses(index)
-            if index != 0 and self.is_number(self.expression[index - 1]) or self.expression[index - 1] == DOT or \
-                    self.expression[index - 1] == CLOSING_BRACKET:
+            if index == 0:
+                self.operator_before(index, count)
+            elif self.is_number(self.expression[index - 1]) or self.expression[index - 1] == DOT or \
+                    self.expression[index - 1] == CLOSING_BRACKET \
+                    or self.validate.operand_side(self.expression[index - 1]) == LEFT:
                 self.operand_before(index, count)
             else:
                 self.operator_before(index, count)
@@ -84,8 +88,14 @@ class Handler(object):
         if count % 2 == 0 and count != 0:
             self.delete_minuses(index, index + count)
         elif count % 2 != 0:
-            self.expression[index + count] = MINUS + self.expression[index + count]
-            self.delete_minuses(index, index + count)
+            if self.is_number(self.expression[index + count]):
+                self.expression[index + count] = MINUS + self.expression[index + count]
+                self.delete_minuses(index, index + count)
+            elif self.validate.operand_side(self.expression[index + count]) == RIGHT \
+                    or self.expression[index + count] == OPENING_BRACKET:
+                self.expression.insert(index + count, "-1")
+                self.expression.insert(index + count + 1, "*")
+                self.delete_minuses(index, index + count)
 
     def is_number(self, item: str) -> bool:
         """check if the item is a number
