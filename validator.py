@@ -8,11 +8,11 @@ class Validator(object):
 
     def validate(self):
         """validate the chars, the brackets order, and the beginning and ending of the expression."""
-        self.vlidate_chars()
+        self.validate_chars()
         self.validate_brackets_order()
         self.validate_start_end()
 
-    def vlidate_chars(self):
+    def validate_chars(self):
         """check if the chars in the expression are valid"""
         index = 0
         while index < len(self.expression):
@@ -122,7 +122,8 @@ class Validator(object):
         if not before.isdigit() and before != DOT and not after.isdigit() and after != DOT:
             self.raising_error(index)
 
-    def operand_side(self, operator: str) -> str:
+    @staticmethod
+    def operand_side(operator: str) -> str:
         """
         return the side of the operand of the given operator
         :param operator: the operator

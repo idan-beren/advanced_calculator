@@ -97,7 +97,8 @@ class Handler(object):
                 self.expression.insert(index + count + 1, "*")
                 self.delete_minuses(index, index + count)
 
-    def is_number(self, item: str) -> bool:
+    @staticmethod
+    def is_number(item: str) -> bool:
         """check if the item is a number
         :param item: item to check
         :return: True if the item is a number, False otherwise

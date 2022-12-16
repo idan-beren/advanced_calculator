@@ -6,9 +6,19 @@ from printer import *
 
 class Calculator(object):
     def __init__(self):
-        self.scanner = Scanner()
-        self.handler = Handler(self.scanner.expression)
-        self.solver = Solver(self.handler.expression)
-        self.result = self.solver.solve()
-        self.printer = Printer(self.result)
-        self.printer.print_expression()
+        print("Welcome to the calculator! Please enter the expression you want to solve. or type 'exit' to quit.")
+        while True:
+            self.calculate()
+
+    @staticmethod
+    def calculate():
+        scanner = Scanner()
+        try:
+            handler = Handler(scanner.expression)
+        except ValueError as error:
+            print(error)
+            return
+        solver = Solver(handler.expression)
+        result = solver.solve()
+        printer = Printer(result)
+        printer.print_expression()
