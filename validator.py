@@ -11,6 +11,7 @@ class Validator(object):
         self.validate_chars()
         self.validate_brackets_order()
         self.validate_start_end()
+        self.validate_multy_right_operator()
 
     def validate_chars(self):
         """check if the chars in the expression are valid"""
@@ -172,3 +173,17 @@ class Validator(object):
     def raising_error(self, index: int):
         """raise an error with the index of the invalid char"""
         raise ValueError(f"Invalid char {self.expression[index]} at index {index}")
+
+    def validate_multy_right_operator(self):
+        """check if there are two right operators in a row between minuses, and raise an error if it needed"""
+        index = 0
+        while index < len(self.expression):
+            if self.operand_side(self.expression[index]) == RIGHT:
+                index += 1
+                while index < len(self.expression) and not \
+                        (self.expression[index].isdigit() or self.expression[index] == DOT
+                         or self.expression[index] == OPENING_BRACKET):
+                    if self.operand_side(self.expression[index]) == RIGHT:
+                        self.raising_error(index)
+                    index += 1
+            index += 1
