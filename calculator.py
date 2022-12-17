@@ -20,5 +20,6 @@ class Calculator(object):
             return
         solver = Solver(handler.expression)
         result = solver.solve()
-        printer = Printer(result)
-        printer.print_expression()
+        if result is not None:
+            printer = Printer(handler.expression, result)
+            printer.print_expression()

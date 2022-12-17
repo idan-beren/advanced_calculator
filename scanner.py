@@ -4,7 +4,12 @@ class Scanner(object):
         self.expression = self.scan()
 
     def scan(self):
+        """
+        scan the expression from the user
+        :return: the expression as a string
+        """
         try:
+            print("-------------------------------------------------------------------------------------------------")
             self.expression = input("Enter the expression: ")
         except EOFError:
             print("The program has been terminated.")

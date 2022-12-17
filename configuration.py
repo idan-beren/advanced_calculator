@@ -16,7 +16,7 @@ OPERAND_SIDE = {'+': "both", '-': "both", '*': "both", '/': "both", '^': "both",
 OPERATOR_PRIORITY = {'+': 1, '-': 1, '*': 2, '/': 2, '^': 3, '%': 4, '$': 5, '&': 5, '@': 5, '~': 6, '!': 6, '#': 6}
 # function of the operators
 OPERATOR_FUNCTION = {'+': addition, '-': subtraction, '*': multiplication, '/': division, '^': power, '%': modulo,
-                     '$': minimum, '&': maximum, '@': average, '~': tilda, '!': factorial, '#': summation}
+                     '$': maximum, '&': minimum, '@': average, '~': tilda, '!': factorial, '#': summation}
 # all the valid brackets
 CLOSING_BRACKETS = [')']
 OPENING_BRACKETS = ['(']

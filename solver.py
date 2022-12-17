@@ -7,9 +7,11 @@ class Solver(object):
         self.expression = expression
         self.postfix = Postfix(self.expression)
         self.postfix.convert_infix_to_postfix()
-        print(self.expression)
 
     def solve(self) -> float:
+        """calling the solve_postfix method that calculates the result
+        :return: the result of the expression
+        """
         try:
             return self.postfix.solve_postfix()
         except ValueError as error:
