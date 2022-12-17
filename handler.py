@@ -69,9 +69,6 @@ class Handler(object):
         if the count is odd: the next operand needs to change sign
         :param index: index of the first minus
         :param count: count of the minuses in a row"""
-        if count % 2 != 0:
-            self.expression[index + 1] = MINUS
-        self.delete_minuses(index, index + count)
         self.delete_minuses(index, index + count)
         if count % 2 != 0:
             if self.is_number(self.expression[index]):
