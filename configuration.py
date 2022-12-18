@@ -1,9 +1,6 @@
 from math_functions import *
 
-
-"""
-configuration file: contains all the configuration variables
-"""
+"""configuration file: contains all the configuration variables"""
 
 # all the valid characters
 VALID_CHARS = ['+', '-', '*', '/', '^', '%', '$', '&', '@', '~', '!', '#', '(', ')', '.', ' ']

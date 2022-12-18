@@ -7,16 +7,11 @@ class Handler(object):
     def __init__(self, expression: str):
         self.expression = list(expression)
         self.remove_spaces()
-        self.empty_expression()
+        self.raw_expression = "".join(self.expression)
         self.validate = Validator(self.expression)
         self.validate.validate()
         self.merge_operands()
         self.handle_minuses()
-
-    def empty_expression(self):
-        """check if the expression is empty and raise an error if it is"""
-        if len(self.expression) == 0:
-            raise ValueError("Empty expression")
 
     def remove_spaces(self):
         """remove spaces and tabs from the whole expression"""
@@ -95,7 +90,7 @@ class Handler(object):
                 count = self.count_minuses(index)
             if index == 0:
                 self.operator_before(index, count)
-            elif self.is_number(self.expression[index - 1]) or self.expression[index - 1] == CLOSING_BRACKET\
+            elif self.is_number(self.expression[index - 1]) or self.expression[index - 1] == CLOSING_BRACKET \
                     or self.validate.operand_side(self.expression[index - 1]) == LEFT:
                 self.operand_before(index, count)
             else:

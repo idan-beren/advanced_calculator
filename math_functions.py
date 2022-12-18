@@ -1,4 +1,4 @@
-import math
+"""file of the math functions"""
 
 
 def addition(operand1: float, operand2: float) -> float:
@@ -51,11 +51,12 @@ def power(operand1: float, operand2: float) -> float:
     :return: power of the two operands
     """
     try:
-        return math.pow(operand1, operand2)
-    except ValueError:
-        raise ValueError('Cannot power a negative number to a non-integer')
+        result = pow(operand1, operand2)
     except OverflowError:
         raise OverflowError('The result of the power is too large')
+    if type(result) is complex:
+        raise ValueError('The result of the power is a complex number')
+    return result
 
 
 def modulo(operand1: float, operand2: float) -> float:
@@ -65,6 +66,8 @@ def modulo(operand1: float, operand2: float) -> float:
     :param operand2: second operand
     :return: remainder of the two operands
     """
+    if operand2 == 0:
+        raise ValueError('Cannot modulo by zero')
     return operand1 % operand2
 
 

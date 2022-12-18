@@ -3,7 +3,7 @@ class Scanner(object):
     def __init__(self):
         self.expression = self.scan()
 
-    def scan(self):
+    def scan(self) -> str:
         """
         scan the expression from the user
         :return: the expression as a string

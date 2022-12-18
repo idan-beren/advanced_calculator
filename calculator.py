@@ -12,6 +12,7 @@ class Calculator(object):
 
     @staticmethod
     def calculate():
+        """calling the methods to handle, validate, solve and print the expression"""
         scanner = Scanner()
         try:
             handler = Handler(scanner.expression)
@@ -21,5 +22,5 @@ class Calculator(object):
         solver = Solver(handler.expression)
         result = solver.solve()
         if result is not None:
-            printer = Printer(handler.expression, result)
+            printer = Printer(handler.raw_expression, result)
             printer.print_expression()

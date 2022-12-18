@@ -7,13 +7,19 @@ class Validator(object):
         self.expression = expression
 
     def validate(self):
-        """calling the methods that: validate the chars, the brackets order,
+        """calling the methods that: check if the expression is empty, validate the chars, the brackets order,
         the beginning and ending of the expression, right operators between minuses, and the whole expression"""
+        self.empty_expression()
         self.validate_chars()
         self.validate_brackets_order()
         self.validate_start_end()
         self.validate_multy_right_operator()
         self.validate_expression()
+
+    def empty_expression(self):
+        """check if the expression is empty and raise an error if it is"""
+        if len(self.expression) == 0:
+            raise ValueError("Empty expression")
 
     def validate_chars(self):
         """check if the chars in the expression are valid"""
@@ -68,33 +74,29 @@ class Validator(object):
         :param before: the char before the bracket
         :param after: the char after the bracket
         :param index: the index of the bracket in the expression"""
-        if (before in OPERATORS and self.operand_side(before) != LEFT) or before in OPENING_BRACKETS:
-            if after.isdigit() or after in OPENING_BRACKETS or self.operand_side(after) == RIGHT or after == MINUS\
-                    or after == DOT:
-                return
-        self.raising_error(index)
+        if not (((before in OPERATORS and self.operand_side(before) != LEFT) or before in OPENING_BRACKETS) and
+                (after.isdigit() or after in OPENING_BRACKETS or self.operand_side(after) == RIGHT or after == MINUS
+                    or after == DOT)):
+            self.raising_error(index)
 
     def validate_closing_bracket(self, before: str, after: str, index: int):
         """validate the closing brackets
         :param before: the char before the bracket
         :param after: the char after the bracket
         :param index: the index of the bracket in the expression"""
-        if before.isdigit() or before in CLOSING_BRACKETS or self.operand_side(before) == LEFT or before == DOT:
-            if (after in OPERATORS and self.operand_side(after) != RIGHT) or after in CLOSING_BRACKETS:
-                return
-        self.raising_error(index)
+        if not ((before.isdigit() or before in CLOSING_BRACKETS or self.operand_side(before) == LEFT or before == DOT)
+                and ((after in OPERATORS and self.operand_side(after) != RIGHT) or after in CLOSING_BRACKETS)):
+            self.raising_error(index)
 
     def validate_minus(self, before: str, after: str, index: int):
         """validate the minus sign
         :param before: the char before the minus sign
         :param after: the char after the minus sign
         :param index: the index of the minus sign in the expression"""
-        if before.isdigit() or before in CLOSING_BRACKETS + OPENING_BRACKETS or before in OPERATORS or before == DOT:
-            if after.isdigit() or after in OPENING_BRACKETS or after == MINUS \
-                    or self.operand_side(after) == RIGHT or after == DOT:
-                return
-        self.raising_error(index)
-        # TODO: fixing the minuses validation.
+        if not ((before.isdigit() or before in CLOSING_BRACKETS + OPENING_BRACKETS or before in OPERATORS
+                or before == DOT) and (after.isdigit() or after in OPENING_BRACKETS or after == MINUS
+                or self.operand_side(after) == RIGHT or after == DOT)):
+            self.raising_error(index)
 
     def validate_operators(self, index: int, before: str, after: str):
         """calling the right method to validate the operators according to the type of the operator
@@ -114,31 +116,28 @@ class Validator(object):
         :param before: the char before the operator
         :param after: the char after the operator
         :param index: the index of the operator in the expression"""
-        if before.isdigit() or before in CLOSING_BRACKETS or self.operand_side(before) == LEFT or before == DOT:
-            if (after in OPERATORS and self.operand_side(after) != RIGHT) or after in CLOSING_BRACKETS:
-                return
-        self.raising_error(index)
+        if not ((before.isdigit() or before in CLOSING_BRACKETS or self.operand_side(before) == LEFT or before == DOT)
+                and ((after in OPERATORS and self.operand_side(after) != RIGHT) or after in CLOSING_BRACKETS)):
+            self.raising_error(index)
 
     def validate_right_operator(self, before: str, after: str, index: int):
         """validate the right operators
         :param before: the char before the operator
         :param after: the char after the operator
         :param index: the index of the operator in the expression"""
-        if (before in OPERATORS and self.operand_side(before) == BOTH) or before in OPENING_BRACKETS:
-            if after.isdigit() or after in OPENING_BRACKETS or after == MINUS or after == DOT:
-                return
-        self.raising_error(index)
+        if not (((before in OPERATORS and self.operand_side(before) == BOTH) or before in OPENING_BRACKETS) and
+                (after.isdigit() or after in OPENING_BRACKETS or after == MINUS or after == DOT)):
+            self.raising_error(index)
 
     def validate_both_operator(self, before: str, after: str, index: int):
         """validate the both operators
         :param before: the char before the operator
         :param after: the char after the operator
         :param index: the index of the operator in the expression"""
-        if before in CLOSING_BRACKETS or self.operand_side(before) == LEFT or before.isdigit() or before == DOT:
-            if after in OPENING_BRACKETS or after.isdigit() or after == MINUS \
-                    or self.operand_side(after) == RIGHT or after == DOT:
-                return
-        self.raising_error(index)
+        if not ((before in CLOSING_BRACKETS or self.operand_side(before) == LEFT or before.isdigit() or before == DOT)
+                and (after in OPENING_BRACKETS or after.isdigit() or after == MINUS
+                or self.operand_side(after) == RIGHT or after == DOT)):
+            self.raising_error(index)
 
     def validate_operands(self, before: str, after: str, index: int):
         """validate the operands
@@ -173,13 +172,13 @@ class Validator(object):
         """check if the expression contains at least one digit, start and end with valid chars, if not raise an error"""
         if not self.contain_digit():
             raise ValueError("The expression must contain at least one digit")
-        char = self.expression[0]
-        if char is MINUS or char is OPENING_BRACKET or char is DOT or char.isdigit() \
-                or self.operand_side(char) == RIGHT:
-            char = self.expression[-1]
-            if char is CLOSING_BRACKET or char.isdigit() or char is DOT or self.operand_side(char) == LEFT:
-                return
-        raise ValueError("the char at the start or end of the expression is invalid")
+        start = self.expression[0]
+        if not (start is MINUS or start is OPENING_BRACKET or start is DOT or start.isdigit()
+                or self.operand_side(start) == RIGHT):
+            raise ValueError(f"Invalid start of expression: {start}")
+        end = self.expression[-1]
+        if not (end is CLOSING_BRACKET or end.isdigit() or end is DOT or self.operand_side(end) == LEFT):
+            raise ValueError(f"Invalid end of expression: {end}")
 
     def contain_digit(self) -> bool:
         """
@@ -206,7 +205,8 @@ class Validator(object):
             raise ValueError("Invalid brackets order")
 
     def raising_error(self, index: int):
-        """raise an error with the index of the invalid char"""
+        """raise an error with the index of the invalid char
+        :param index: the index of the invalid char"""
         raise ValueError(f"Invalid char {self.expression[index]} at index {index}")
 
     def validate_multy_right_operator(self):
