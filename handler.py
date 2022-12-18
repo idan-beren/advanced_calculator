@@ -5,6 +5,7 @@ from configuration import *
 class Handler(object):
     """class to check if the expression is valid and to handle the expression"""
     def __init__(self, expression: str):
+        """initialize the class"""
         self.expression = list(expression)
         self.remove_spaces()
         self.raw_expression = "".join(self.expression)

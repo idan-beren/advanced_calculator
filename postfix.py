@@ -6,6 +6,7 @@ from math_functions import *
 class Postfix(object):
     """class to convert the expression to a postfix expression and then solve it"""
     def __init__(self, expression: list):
+        """initializes the postfix class"""
         self.expression = expression
 
     def convert_infix_to_postfix(self):

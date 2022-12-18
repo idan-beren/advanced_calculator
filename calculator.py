@@ -6,6 +6,7 @@ from printer import *
 
 class Calculator(object):
     def __init__(self):
+        """initializes the calculator"""
         print("Welcome to the calculator! Please enter the expression you want to solve. or type 'exit' to quit.")
         while True:
             self.calculate()
@@ -16,7 +17,7 @@ class Calculator(object):
         scanner = Scanner()
         try:
             handler = Handler(scanner.expression)
-        except ValueError as error:
+        except SyntaxError as error:
             print(error)
             return
         solver = Solver(handler.expression)

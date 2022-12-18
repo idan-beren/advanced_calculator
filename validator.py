@@ -4,6 +4,7 @@ from configuration import *
 class Validator(object):
     """class to validate the expression"""
     def __init__(self, expression: list):
+        """initialize the validator"""
         self.expression = expression
 
     def validate(self):
@@ -19,7 +20,7 @@ class Validator(object):
     def empty_expression(self):
         """check if the expression is empty and raise an error if it is"""
         if len(self.expression) == 0:
-            raise ValueError("Empty expression")
+            raise SyntaxError("Empty expression")
 
     def validate_chars(self):
         """check if the chars in the expression are valid"""
@@ -171,14 +172,14 @@ class Validator(object):
     def validate_start_end(self):
         """check if the expression contains at least one digit, start and end with valid chars, if not raise an error"""
         if not self.contain_digit():
-            raise ValueError("The expression must contain at least one digit")
+            raise SyntaxError("The expression must contain at least one digit")
         start = self.expression[0]
         if not (start is MINUS or start is OPENING_BRACKET or start is DOT or start.isdigit()
                 or self.operand_side(start) == RIGHT):
-            raise ValueError(f"Invalid start of expression: {start}")
+            raise SyntaxError(f"Invalid start of expression: {start}")
         end = self.expression[-1]
         if not (end is CLOSING_BRACKET or end.isdigit() or end is DOT or self.operand_side(end) == LEFT):
-            raise ValueError(f"Invalid end of expression: {end}")
+            raise SyntaxError(f"Invalid end of expression: {end}")
 
     def contain_digit(self) -> bool:
         """
@@ -199,15 +200,15 @@ class Validator(object):
                 brackets.append(char)
             elif char == CLOSING_BRACKET:
                 if len(brackets) == 0:
-                    raise ValueError("Invalid brackets order")
+                    raise SyntaxError("Invalid brackets order")
                 brackets.pop()
         if len(brackets) != 0:
-            raise ValueError("Invalid brackets order")
+            raise SyntaxError("Invalid brackets order")
 
     def raising_error(self, index: int):
         """raise an error with the index of the invalid char
         :param index: the index of the invalid char"""
-        raise ValueError(f"Invalid char {self.expression[index]} at index {index}")
+        raise SyntaxError(f"Invalid char {self.expression[index]} at index {index}")
 
     def validate_multy_right_operator(self):
         """check if there are two right operators in a row between minuses, and raise an error if it needed"""

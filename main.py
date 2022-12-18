@@ -2,6 +2,7 @@ from calculator import *
 
 
 def main():
+    """main function"""
     Calculator()
 
 

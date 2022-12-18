@@ -1,6 +1,7 @@
 class Scanner(object):
     """class to scan the expression"""
     def __init__(self):
+        """initializes the scanner"""
         self.expression = self.scan()
 
     def scan(self) -> str:

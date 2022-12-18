@@ -3,6 +3,17 @@ from postfix import *
 
 # dictionary of valid expressions
 valid_expressions = {
+    "1.1+2!": 3.1,
+    "22#-2": 2.0,
+    "2^2^2": 16.0,
+    "110/11-1!": 9.0,
+    "-2.2#": -4.0,
+    "-~1!": 1.0,
+    "1-~44#": 9.0,
+    "22%22": 0.0,
+    "99@9+9": 63.0,
+    "22#$3": 4.0,
+    "44&2!": 2.0,
     "(980#!#%4^3^3)/(33$33$33)@(33*3^2)": 119.2909090909091,
     "--1!+-1.123#+~-(22.2$2.22+-~(55/5-8))": 19.2,
     "---~--2.22#+--1!-((3!--1)#$(3.3^3.3))": -44.415729444066585,
@@ -23,6 +34,7 @@ valid_expressions = {
 
 # list of invalid expressions
 invalid_expressions = [
+    ""
     "            "
     "hello-world!"
     "(-1+1))"
@@ -33,6 +45,8 @@ invalid_expressions = [
     "-~-~3"
     "1.1.1"
     "1**2"
+    "!3"
+    "3~"
 ]
 
 
@@ -56,6 +70,8 @@ def test_invalid_expressions():
         try:
             helper(invalid_expression)
             assert False
+        except SyntaxError:
+            assert True
         except ValueError:
             assert True
         except OverflowError:

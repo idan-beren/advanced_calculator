@@ -1,6 +1,7 @@
 class Printer(object):
     """class to print the result"""
     def __init__(self, expression: list, result: float):
+        """initializes the printer"""
         self.expression = expression
         self.expression = "".join(self.expression)
         self.result = result
