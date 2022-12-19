@@ -147,7 +147,7 @@ def summation(operand1: float) -> float:
 
 def convert_to_float(number: str) -> float:
     """
-    convert the number to float
+    converts the number to float
     :param number: the number to be converted
     :return: the float number
     """
@@ -155,6 +155,8 @@ def convert_to_float(number: str) -> float:
     for element in str(number):
         if element == '.':
             dot_count += 1
+        if dot_count > 1:
+            break
     if dot_count > 1:
         raise ValueError('There are more than one dot in a number')
     return float(number)

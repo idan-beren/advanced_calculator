@@ -6,7 +6,7 @@ class Scanner(object):
 
     def scan(self) -> str:
         """
-        scan the expression from the user
+        scans the expression from the user
         :return: the expression as a string
         """
         try:

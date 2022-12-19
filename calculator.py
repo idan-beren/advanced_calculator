@@ -5,6 +5,7 @@ from printer import *
 
 
 class Calculator(object):
+    """class of calculator, which uses the scanner, handler, solver and printer classes to solve the expression"""
     def __init__(self):
         """initializes the calculator"""
         print("Welcome to the calculator! Please enter the expression you want to solve. or type 'exit' to quit.")
@@ -13,7 +14,7 @@ class Calculator(object):
 
     @staticmethod
     def calculate():
-        """calling the methods to handle, validate, solve and print the expression"""
+        """calls the methods to scan, handle, validate, solve and print the expression"""
         scanner = Scanner()
         try:
             handler = Handler(scanner.expression)

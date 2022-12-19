@@ -2,7 +2,7 @@ from postfix import *
 
 
 class Solver(object):
-    """class to solve the expression"""
+    """class to solve the expression by using the postfix class"""
     def __init__(self, expression: list):
         """initializes the solver"""
         self.expression = expression
@@ -10,7 +10,7 @@ class Solver(object):
         self.postfix.convert_infix_to_postfix()
 
     def solve(self) -> float:
-        """calling the solve_postfix method that calculates the result
+        """calls the solve_postfix method that calculates the result
         :return: the result of the expression
         """
         try:

@@ -10,7 +10,7 @@ class Postfix(object):
         self.expression = expression
 
     def convert_infix_to_postfix(self):
-        """convert the infix expression to postfix expression"""
+        """converts the infix expression to postfix expression"""
         stack = Stack()
         result = []
         for element in self.expression:
@@ -33,7 +33,7 @@ class Postfix(object):
 
     def solve_postfix(self) -> float:
         """
-        solve the postfix expression
+        solves the postfix expression
         :return: the result of the expression
         """
         stack = Stack()

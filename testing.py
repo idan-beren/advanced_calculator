@@ -1,6 +1,8 @@
 from handler import *
 from postfix import *
 
+"""file of the tests"""
+
 # dictionary of valid expressions
 valid_expressions = {
     "1.1+2!": 3.1,

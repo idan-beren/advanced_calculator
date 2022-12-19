@@ -3,7 +3,7 @@ from configuration import *
 
 
 class Handler(object):
-    """class to check if the expression is valid and to handle the expression"""
+    """class to check to handle the expression and use the validator to validate the expression"""
     def __init__(self, expression: str):
         """initialize the class"""
         self.expression = list(expression)
@@ -15,11 +15,11 @@ class Handler(object):
         self.handle_minuses()
 
     def remove_spaces(self):
-        """remove spaces and tabs from the whole expression"""
+        """removes spaces and tabs from the whole expression"""
         self.expression = [index for index in self.expression if index not in [SPACE, TAB]]
 
     def merge_operands(self):
-        """merge the operands, stick digits and dots together to the same item in the list"""
+        """merges the operands, stick digits and dots together to the same item in the list"""
         new_expression = [""]
         index = 0
         while index < len(self.expression):
@@ -33,7 +33,7 @@ class Handler(object):
         self.expression = new_expression
 
     def count_minuses(self, index: int) -> int:
-        """count of the minuses in a row starting from the given index (inclusive)
+        """counts the minuses in a row starting from the given index (inclusive)
         :param index: index of the first minus
         :return: count of the minuses in a row
         """
@@ -44,16 +44,16 @@ class Handler(object):
         return count
 
     def delete_minuses(self, index1: int, index2: int):
-        """remove the minuses from the expression between the given indexes (not inclusive)
+        """removes the minuses from the expression between the given indexes (not inclusive)
         :param index1: index of the first minus
         :param index2: index of the last minus"""
         del self.expression[index1:index2]
 
     def operand_before(self, index: int, count: int):
-        """handle the minuses before an operand, if the count is even, replace the minuses with a plus,
-            if the count is odd, replace the minuses with a minus
-            :param index: index of the first minus
-            :param count: count of the minuses in a row"""
+        """handles the minuses before an operand, if the count is even, replace the minuses with a plus,
+        if the count is odd, replace the minuses with a minus
+        :param index: index of the first minus
+        :param count: count of the minuses in a row"""
         if count % 2 == 0 and count != 0:
             self.expression[index] = PLUS
         elif count % 2 != 0:
@@ -61,7 +61,7 @@ class Handler(object):
         self.delete_minuses(index + 1, index + count)
 
     def operator_before(self, index: int, count: int):
-        """handle the minuses before an operator, remove the minuses
+        """handles the minuses before an operator. removes the minuses.
         if the count is odd: the next operand needs to change sign
         :param index: index of the first minus
         :param count: count of the minuses in a row"""
@@ -82,7 +82,7 @@ class Handler(object):
                     self.expression.insert(index + 1, MINUS)
 
     def handle_minuses(self):
-        """handle the minuses, iterate through the expression, and call the appropriate function
+        """handles the minuses, iterates through the expression, and calls the appropriate function
             to remove or replace the minuses"""
         index = 0
         while index < len(self.expression):
@@ -99,7 +99,7 @@ class Handler(object):
             index += 1
 
     def find_matching_closing_brackets(self, index: int) -> int:
-        """find the matching closing bracket for the opening bracket in the given index
+        """finds the matching closing bracket for the opening bracket in the given index
         :param index: index of the opening bracket
         :return: index of the matching closing bracket
         """
@@ -114,7 +114,7 @@ class Handler(object):
 
     @staticmethod
     def is_number(item: str) -> bool:
-        """check if the item is a number
+        """checks if the item is a number
         :param item: item to check
         :return: True if the item is a number, False otherwise
         """
